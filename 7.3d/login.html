@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeakinPay - Next-Gen Student Payments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --deakin-blue: #00A3E1;
+            --deakin-red: #E2004F;
+            --deakin-dark: #2C3E50;
+            --deakin-light: #F8F9FA;
+            --deakin-success: #28A745;
+            --deakin-warning: #FFC107;
+        }
+
+        body {
+            background-color: #f8fafc;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* Ultra-Modern Login Page */
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('campus-background.jpg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 440px;
+            margin: auto;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            border: none;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-header {
+            background: var(--deakin-dark);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        /* Crispy Form Styles */
+        .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            height: 50px;
+            box-shadow: none !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--deakin-blue);
+            box-shadow: 0 0 0 3px rgba(0, 163, 225, 0.15) !important;
+        }
+
+        /* Password Input */
+        .password-input-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 2;
+        }
+
+        .password-toggle:hover {
+            color: var(--deakin-blue);
+        }
+
+        /* Ultra-Modern Buttons */
+        .btn-deakin {
+            background: var(--deakin-dark);
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 163, 225, 0.1);
+        }
+
+        .btn-deakin:hover {
+            background: #0088c6;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 163, 225, 0.2);
+        }
+
+        /* Payment Page Styles */
+        .payment-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .payment-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Ultra-Modern Payment Method Cards */
+        .payment-method-btn {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 1.5rem;
+            text-align: center;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-method-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--deakin-blue);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .payment-method-btn:hover {
+            border-color: var(--deakin-blue);
+            box-shadow: 0 5px 15px rgba(0, 163, 225, 0.1);
+        }
+
+        .payment-method-btn.active {
+            border: 1px solid var(--deakin-blue);
+            background-color: rgba(0, 163, 225, 0.03);
+        }
+
+        .payment-method-btn.active::before {
+            transform: scaleX(1);
+        }
+
+        /* Apple Pay Button */
+        .apple-btn {
+            background: #000;
+            color: white;
+        }
+
+        .apple-btn:hover {
+            background: #111;
+        }
+
+        .apple-btn.active {
+            background: #000;
+            border-color: #444;
+        }
+
+        /* PayPal Button */
+        .paypal-btn:hover {
+            border-color: #009cde;
+        }
+
+        .paypal-btn.active {
+            border-color: #009cde;
+            background-color: rgba(0, 156, 222, 0.03);
+        }
+
+        /* Payment Icons */
+        .payment-icon {
+            width: 60px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .payment-method-btn:hover .payment-icon {
+            transform: scale(1.1);
+        }
+
+        .apple-pay-icon {
+            width: 60px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        /* 3D Animated Card */
+        .card-container {
+            perspective: 1000px;
+            margin-bottom: 1.5rem;
+            height: 220px;
+        }
+
+        .card-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-3d.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1.75rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            transform: rotateY(0deg);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-magnetic-strip {
+            height: 40px;
+            background: rgba(0, 0, 0, 0.4);
+            margin-top: 1.5rem;
+        }
+
+        .card-cvv-display {
+            background: white;
+            color: #1e293b;
+            padding: 0.5rem;
+            text-align: right;
+            font-family: monospace;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 1rem;
+            align-self: flex-end;
+            width: 60%;
+        }
+
+        .card-type {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.75rem;
+            opacity: 0.8;
+        }
+
+        .card-number-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.25rem;
+            letter-spacing: 1.5px;
+            margin: 2rem 0 1.5rem;
+            word-spacing: 6px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 1.5rem;
+        }
+
+        .card-flip-btn {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-flip-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(180deg);
+        }
+
+        /* Fix for MM/YY & CVV overlapping */
+        .expiry-cvv-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .expiry-cvv-group .form-control {
+            flex: 1;
+        }
+
+        /* Success Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--deakin-blue);
+            opacity: 0;
+            z-index: 9999;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Transaction History */
+        .transaction-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .transaction-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .transaction-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--deakin-blue);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .transaction-item:hover::after {
+            transform: scaleY(1);
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .transaction-positive {
+            color: var(--deakin-success);
+        }
+
+        .transaction-negative {
+            color: var(--deakin-red);
+        }
+
+        /* Glow Animation for Payment */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 163, 225, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 163, 225, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 163, 225, 0); }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* New: Floating payment animation */
+        @keyframes float-up {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        .floating-payment {
+            position: fixed;
+            background: var(--deakin-blue);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            animation: float-up 1.5s ease-out forwards;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* New: Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* New: Card tilt effect */
+        .card-tilt {
+            transition: transform 0.3s ease;
+        }
+
+        /* New: Payment completion animation */
+        .payment-complete {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .payment-complete.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .payment-complete-icon {
+            font-size: 5rem;
+            color: var(--deakin-success);
+            margin-bottom: 2rem;
+            transform: scale(0);
+            animation: scaleIn 0.5s ease-out 0.3s forwards;
+        }
+
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .login-card {
+                margin: 1.5rem;
+                border-radius: 14px;
+            }
+            .payment-method-btn {
+                padding: 1.25rem;
+            }
+            .card-container {
+                height: 200px;
+            }
+        }
+
+        /* NEW: Innovative Student Profile Styles */
+        .student-profile-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .student-profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--deakin-blue) 0%, #0088c6 100%);
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 60px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            background-color: #f1f5f9;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--deakin-blue);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+
+        .profile-id {
+            font-size: 0.9rem;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-section {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            font-size: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .course-highlight {
+            color: var(--deakin-blue);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .course-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--deakin-blue);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .course-highlight:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .unit-badge {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .unit-badge:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .unit-badge i {
+            color: var(--deakin-blue);
+        }
+
+        .units-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            background: linear-gradient(135deg, #e6f7ff 0%, #b3e6ff 100%);
+            color: #006699;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .academic-progress {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--deakin-blue) 0%, #00c6ff 100%);
+            border-radius: 3px;
+            width: 75%;
+            position: relative;
+            transition: width 1s ease;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: var(--deakin-blue);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .profile-btn {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 8px;
+            border: none;
+            background: #f1f5f9;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-btn:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .profile-btn i {
+            font-size: 0.9rem;
+        }
+
+        /* Animated background elements */
+        .profile-bg-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .bg-element-1 {
+            width: 100px;
+            height: 100px;
+            background: var(--deakin-blue);
+            top: -30px;
+            right: -30px;
+        }
+
+        .bg-element-2 {
+            width: 60px;
+            height: 60px;
+            background: var(--deakin-red);
+            bottom: 20px;
+            left: -20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="deakin-logo.jpg" alt="Deakin" height="45">
+                <h4 class="mt-3 mb-0 fw-bold">DeakinPay</h4>
+                <p class="mb-0 small opacity-75">Next-Gen Student Payments</p>
+            </div>
+            <div class="login-body">
+                <form id="loginForm">
+                    <div class="mb-4">
+                        <label class="form-label fw-medium">Deakin Email</label>
+                        <input type="email" class="form-control" id="studentEmail" placeholder="name@deakin.edu.au" required>
+                        <div class="invalid-feedback small" id="emailError"></div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-medium">Password</label>
+                        <div class="password-input-group">
+                            <input type="password" class="form-control" id="studentPassword" placeholder="••••••••" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i class="far fa-eye" id="toggleIcon"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback small" id="passwordError"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label small" for="rememberMe">Remember me</label>
+                        </div>
+                        <a href="#" class="text-primary text-decoration-none small">Forgot password?</a>
+                    </div>
+                    <button type="button" onclick="validateLogin()" class="btn btn-deakin text-white w-100 fw-bold" id="loginBtn">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div id="paymentPage" style="display: none;">
+        <nav class="navbar navbar-expand-lg payment-header navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="deakin-logo.jpg" alt="Deakin" height="40">
+                    <span class="ms-2 fw-bold">DeakinPay</span>
+                </a>
+                <div class="d-flex align-items-center">
+                    <div class="me-4 d-none d-md-block">
+                        <div class="small text-muted">Logged in as</div>
+                        <div class="fw-medium" id="loggedInUser">Loading...</div>
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container py-4">
+            <div class="row">
+                <!-- Student Info Column - INNOVATIVE DESIGN -->
+                <div class="col-lg-4 mb-4">
+                    <div class="student-profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <h3 class="profile-name" id="studentName">John A. Smith</h3>
+                            <div class="profile-id" id="studentId">s224967779</div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="section-title">
+                                <i class="fas fa-graduation-cap"></i> ACADEMIC DETAILS
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="detail-label">Course:</span>
+                                <span class="detail-value">
+                                    <span class="course-highlight" id="studentCourse">Master of Information Technology (Professional)</span>
+                                </span>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="detail-label">Semester:</span>
+                                <span class="detail-value" id="studentSemester">Trimester 1, 2025</span>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">
+                                    <span id="studentStatus">Active - Full Time</span>
+                                    <span class="status-badge">Current</span>
+                                </span>
+                            </div>
+                            
+                            <div class="academic-progress">
+                                <div class="small fw-medium">Course Progress</div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>75% completed</span>
+                                    <span class="progress-percentage">3/4 units</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="section-title">
+                                <i class="fas fa-book-open"></i> CURRENT ENROLLMENT
+                            </div>
+                            
+                            <div class="units-container" id="enrolledUnits">
+                                <span class="unit-badge">
+                                    <i class="fas fa-laptop-code"></i> SIT774 - Web Technologies
+                                </span>
+                                <span class="unit-badge">
+                                    <i class="fas fa-project-diagram"></i> SIT782 - Project Delivery
+                                </span>
+                                <span class="unit-badge">
+                                    <i class="fas fa-chart-line"></i> SIT718 - Analytics
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <div class="profile-actions">
+                                <button class="profile-btn">
+                                    <i class="fas fa-id-card"></i> Profile
+                                </button>
+                                <button class="profile-btn">
+                                    <i class="fas fa-cog"></i> Settings
+                                </button>
+                                <button class="profile-btn">
+                                    <i class="fas fa-question-circle"></i> Help
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-bg-element bg-element-1"></div>
+                        <div class="profile-bg-element bg-element-2"></div>
+                    </div>
+                </div>
+
+                <!-- Payment Column -->
+                <div class="col-lg-8">
+                    <!-- Fee Statement -->
+                    <div class="payment-card p-4 mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0 fw-medium"><i class="fas fa-receipt me-2 text-primary"></i> Fee Statement</h4>
+                            <button class="btn btn-sm btn-outline-primary" onclick="showTransactionHistory()">
+                                <i class="fas fa-history me-1"></i> View History
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive mb-4">
+                            <table class="table table-borderless" id="feeTable">
+                                <thead class="small text-muted">
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Due Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Fees will be added here by JavaScript -->
+                                </tbody>
+                                <tfoot class="table-active">
+                                    <tr>
+                                        <th class="fw-medium">Total Payable</th>
+                                        <th></th>
+                                        <th class="fw-medium" id="totalPayable">$0.00</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-warning py-2 small mb-0">
+                            <i class="fas fa-exclamation-circle me-2"></i> Payment due by <span id="dueDate" class="fw-medium">loading...</span> to avoid late fees.
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div class="payment-card p-4">
+                        <h4 class="mb-4 fw-medium"><i class="fas fa-credit-card me-2 text-primary"></i> Payment Method</h4>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <div class="payment-method-btn active" onclick="selectPaymentMethod(this, 'credit')">
+                                    <img src="cd.png" class="payment-icon">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" checked>
+                                        <label class="form-check-label small fw-medium" for="creditCard">
+                                            Credit/Debit Card
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="payment-method-btn apple-btn" onclick="selectPaymentMethod(this, 'apple')">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" class="apple-pay-icon">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="applePay">
+                                        <label class="form-check-label small fw-medium text-white" for="applePay">
+                                            Apple Pay
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="payment-method-btn paypal-btn" onclick="selectPaymentMethod(this, 'paypal')">
+                                    <img src="paypal.png" class="payment-icon">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="paypal">
+                                        <label class="form-check-label small fw-medium" for="paypal">
+                                            PayPal
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <div id="creditCardForm">
+                            <div class="card-container">
+                                <div class="card-3d card-tilt" id="card3d">
+                                    <div class="card-front">
+                                        <div class="card-type" id="cardTypeIcon">
+                                            <i class="far fa-credit-card"></i>
+                                        </div>
+                                        <div class="card-number-display" id="cardNumberDisplay">
+                                            ENTER CARD NUMBER
+                                        </div>
+                                        <div class="card-details">
+                                            <div class="card-name" id="cardNameDisplay">
+                                                CARDHOLDER NAME
+                                            </div>
+                                            <div class="card-expiry" id="cardExpiryDisplay">
+                                                MM/YY
+                                            </div>
+                                        </div>
+                                        <button class="card-flip-btn" onclick="flipCard()">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-back">
+                                        <div class="card-magnetic-strip"></div>
+                                        <div class="card-cvv-display" id="cardCvvDisplay">
+                                            CVV: ENTER CODE
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-12">
+                                    <label class="form-label small fw-medium">Card Number</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                        <span class="input-group-text bg-transparent">
+                                            <i class="far fa-credit-card text-muted"></i>
+                                        </span>
+                                    </div>
+                                    <div class="invalid-feedback small" id="cardNumberError"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label small fw-medium">Cardholder Name</label>
+                                    <input type="text" class="form-control" id="cardholderName" placeholder="John Smith" required>
+                                    <div class="invalid-feedback small" id="cardholderNameError"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="expiry-cvv-group">
+                                        <div class="w-50">
+                                            <label class="form-label small fw-medium">Expiry Date</label>
+                                            <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+                                            <div class="invalid-feedback small" id="expiryDateError"></div>
+                                        </div>
+                                        <div class="w-50">
+                                            <label class="form-label small fw-medium">CVV</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="cvv" placeholder="•••" maxlength="4" required>
+                                                <span class="input-group-text bg-transparent">
+                                                    <i class="fas fa-question-circle text-muted" title="3-digit code on back of card"></i>
+                                                </span>
+                                            </div>
+                                            <div class="invalid-feedback small" id="cvvError"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Apple Pay Message -->
+                        <div id="appleMessage" class="alert alert-dark py-2 small mb-4" style="display: none;">
+                            <i class="fab fa-apple me-2"></i> You will be redirected to Apple Pay's secure payment gateway.
+                        </div>
+
+                        <!-- PayPal Message -->
+                        <div id="paypalMessage" class="alert alert-primary py-2 small mb-4" style="display: none;">
+                            <i class="fab fa-paypal me-2"></i> You will be redirected to PayPal's secure payment gateway.
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <div>
+                                <h5 class="mb-0 fw-medium">Total: <span id="paymentTotal">$0.00</span></h5>
+                                <small class="text-muted">Including all applicable fees</small>
+                            </div>
+                            <button class="btn btn-success fw-bold pulse-glow" onclick="processPayment()" id="payNowBtn">
+                                <i class="fas fa-lock me-2"></i> Pay Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction History Modal -->
+    <div class="modal fade" id="transactionHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-medium"><i class="fas fa-history me-2"></i> Payment History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="small text-muted">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Method</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionHistoryBody">
+                                <!-- Transactions will be added here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Processing Modal -->
+    <div class="modal fade" id="processingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-body text-center p-5">
+                    <div class="spinner-border text-primary mb-4" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h3 class="mb-3">Processing Payment</h3>
+                    <p class="text-muted">Securely connecting to payment gateway...</p>
+                    <div class="progress mt-4" style="height: 6px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div class="modal fade" id="paymentSuccessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-body text-center p-5">
+                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-4">
+                        <i class="fas fa-check-circle text-success fs-1"></i>
+                    </div>
+                    <h3 class="mb-3">Payment Successful!</h3>
+                    <p class="text-muted mb-4">Your payment of <span id="successAmount" class="fw-bold">$0.00</span> was processed successfully.</p>
+                    <div class="alert alert-success py-2 small mb-4">
+                        <i class="fas fa-envelope me-2"></i> Receipt sent to <span id="receiptEmail" class="fw-bold">your@email.com</span>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-outline-secondary" onclick="downloadReceipt()">
+                            <i class="fas fa-file-pdf me-2"></i> Download Receipt
+                        </button>
+                        <button class="btn btn-primary" data-bs-dismiss="modal">
+                            <i class="fas fa-home me-2"></i> Return to Portal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D Secure Verification Modal -->
+    <div class="modal fade" id="secureVerificationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-body text-center p-5">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-4">
+                        <i class="fas fa-shield-alt text-primary fs-1"></i>
+                    </div>
+                    <h3 class="mb-3">Secure Verification</h3>
+                    <p class="text-muted mb-4">Complete verification with your bank</p>
+                    
+                    <div class="mb-4 p-4 border rounded bg-light">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Amount:</span>
+                            <span class="fw-bold" id="verificationAmount">$0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Card:</span>
+                            <span class="fw-bold" id="verificationCard">•••• •••• •••• 1234</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Bank:</span>
+                            <span class="fw-bold" id="verificationBank">Commonwealth Bank</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">SMS Verification Code</label>
+                        <input type="text" class="form-control text-center" id="smsCode" placeholder="123456" maxlength="6">
+                    </div>
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-outline-danger" onclick="declinePayment()">
+                            <i class="fas fa-times me-2"></i> Cancel Payment
+                        </button>
+                        <button class="btn btn-success" onclick="verifyPayment()" id="verifyBtn">
+                            <i class="fas fa-check me-2"></i> Verify & Complete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Completion Animation -->
+    <div class="payment-complete" id="paymentComplete">
+        <div class="payment-complete-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="mb-3">Payment Complete!</h2>
+        <p class="text-muted">Your transaction was successful</p>
+    </div>
+                                     
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enhanced student data with more realistic information
+        const studentData = {
+            name: "Thoran Kumar Cherukuru Ramesh",
+            id: "s224967779",
+            email: "s224967779@deakin.edu.au",
+            course: "Master of Information Technology ",
+            semester: "Trimester 1, 2025",
+            status: "Active - Full Time",
+            units: ["SIT774 - Web Technologies", "SIT773 - Software Requirements Analysis", ,
+                 "SIT772 - Database Fundamentals"],
+            fees: [
+                { description: "Tuition Fee (3 units)", amount: 7200.00, dueDate: "15/05/2025", status: "Pending" },
+                { description: "Student Services Fee", amount: 303.00, dueDate: "15/05/2025", status: "Pending" }
+            ],
+            transactions: [
+                { id: "DKN20250301", date: "01/03/2025", description: "Library Fee", amount: 125.00, type: "payment", method: "Credit Card", status: "Completed" },
+                { id: "DKN20250215", date: "15/02/2025", description: "Student Services", amount: 303.00, type: "payment", method: "PayPal", status: "Completed" },
+                { id: "DKN20250110", date: "10/01/2025", description: "Tuition Payment", amount: 3600.00, type: "payment", method: "Bank Transfer", status: "Completed" },
+                { id: "DKN20241205", date: "05/12/2024", description: "Late Fee Refund", amount: -50.00, type: "refund", method: "Bank Transfer", status: "Completed" }
+            ],
+            balance: 7503.00
+        };
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const paymentPage = document.getElementById('paymentPage');
+        const transactionHistoryModal = new bootstrap.Modal(document.getElementById('transactionHistoryModal'));
+        const processingModal = new bootstrap.Modal(document.getElementById('processingModal'));
+        const successModal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+        const secureModal = new bootstrap.Modal(document.getElementById('secureVerificationModal'));
+        const paymentComplete = document.getElementById('paymentComplete');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('deakinpay_loggedIn') === 'true';
+            if (isLoggedIn) showPaymentPage();
+            
+            // Card input formatting
+            document.getElementById('cardNumber').addEventListener('input', formatCardNumber);
+            document.getElementById('expiryDate').addEventListener('input', formatExpiryDate);
+            document.getElementById('cardholderName').addEventListener('input', updateCardPreview);
+            document.getElementById('cvv').addEventListener('input', updateCardPreview);
+            
+            // Auto-flip card when CVV field is focused
+            document.getElementById('cvv').addEventListener('focus', function() {
+                document.getElementById('card3d').classList.add('flipped');
+            });
+            
+            // Auto-flip back when CVV field loses focus
+            document.getElementById('cvv').addEventListener('blur', function() {
+                document.getElementById('card3d').classList.remove('flipped');
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add card tilt effect
+            const card3d = document.getElementById('card3d');
+            if (card3d) {
+                card3d.addEventListener('mousemove', (e) => {
+                    const rect = card3d.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const angleX = (y - centerY) / 20;
+                    const angleY = (centerX - x) / 20;
+                    
+                    card3d.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+                });
+                
+                card3d.addEventListener('mouseleave', () => {
+                    card3d.style.transform = 'rotateX(0) rotateY(0)';
+                });
+            }
+        });
+
+        // Flip card animation
+        function flipCard() {
+            document.getElementById('card3d').classList.toggle('flipped');
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('studentPassword');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Validate login
+        function validateLogin() {
+            const email = document.getElementById('studentEmail').value.trim();
+            const password = document.getElementById('studentPassword').value.trim();
+            let isValid = true;
+
+            // Reset validation
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+            // Validate email
+            if (!email.endsWith('@deakin.edu.au')) {
+                document.getElementById('studentEmail').classList.add('is-invalid');
+                document.getElementById('emailError').textContent = 'Please use your Deakin email';
+                isValid = false;
+            }
+
+            // Validate password
+            if (password.length < 8) {
+                document.getElementById('studentPassword').classList.add('is-invalid');
+                document.getElementById('passwordError').textContent = 'Password must be 8+ characters';
+                isValid = false;
+            }
+
+            if (isValid) {
+                const loginBtn = document.getElementById('loginBtn');
+                loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Authenticating...';
+                loginBtn.disabled = true;
+                
+                // Simulate authentication delay
+                setTimeout(() => {
+                    localStorage.setItem('deakinpay_loggedIn', 'true');
+                    localStorage.setItem('deakinpay_userEmail', email);
+                    showPaymentPage();
+                    
+                    // Reset login button
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
+                    loginBtn.disabled = false;
+                }, 1500);
+            }
+        }
+
+        // Show payment page
+        function showPaymentPage() {
+            loginPage.style.display = 'none';
+            paymentPage.style.display = 'block';
+
+            // Set user data
+            document.getElementById('loggedInUser').textContent = `${studentData.name} (${studentData.id})`;
+            document.getElementById('studentName').textContent = studentData.name;
+            document.getElementById('studentId').textContent = studentData.id;
+            document.getElementById('studentCourse').textContent = studentData.course;
+            document.getElementById('studentSemester').textContent = studentData.semester;
+            document.getElementById('studentStatus').textContent = studentData.status;
+            document.getElementById('receiptEmail').textContent = studentData.email;
+
+            // Add enrolled units
+            const unitsContainer = document.getElementById('enrolledUnits');
+            unitsContainer.innerHTML = '';
+            studentData.units.forEach(unit => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-primary bg-opacity-10 text-primary py-1 px-2 small';
+                badge.textContent = unit;
+                unitsContainer.appendChild(badge);
+            });
+
+            // Add fees to table
+            const feeTable = document.getElementById('feeTable').getElementsByTagName('tbody')[0];
+            feeTable.innerHTML = '';
+            let total = 0;
+            
+            studentData.fees.forEach(fee => {
+                total += fee.amount;
+                const row = feeTable.insertRow();
+                row.innerHTML = `
+                    <td class="small">${fee.description}</td>
+                    <td class="small">${fee.dueDate}</td>
+                    <td class="small">$${fee.amount.toFixed(2)}</td>
+                    <td><span class="badge bg-warning text-dark small">${fee.status}</span></td>
+                `;
+            });
+
+            // Set totals
+            document.getElementById('totalPayable').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('paymentTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('dueDate').textContent = studentData.fees[0].dueDate;
+            document.getElementById('successAmount').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('verificationAmount').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Show transaction history
+        function showTransactionHistory() {
+            const transactionHistoryBody = document.getElementById('transactionHistoryBody');
+            transactionHistoryBody.innerHTML = '';
+            
+            studentData.transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                const amountClass = transaction.amount < 0 ? 'transaction-positive' : 'transaction-negative';
+                const amountSign = transaction.amount < 0 ? '+' : '-';
+                const amountValue = Math.abs(transaction.amount).toFixed(2);
+                
+                row.innerHTML = `
+                    <td class="small">${transaction.date}</td>
+                    <td class="small">${transaction.description}</td>
+                    <td class="small">${transaction.method}</td>
+                    <td class="${amountClass} fw-medium">${amountSign}$${amountValue}</td>
+                    <td><span class="badge bg-success bg-opacity-10 text-success small">${transaction.status}</span></td>
+                `;
+                
+                transactionHistoryBody.appendChild(row);
+            });
+            
+            transactionHistoryModal.show();
+        }
+
+        // Format card number
+        function formatCardNumber() {
+            const input = document.getElementById('cardNumber');
+            let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+            
+            if (value.length > 0) {
+                value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+            }
+            
+            input.value = value;
+            updateCardPreview();
+            detectCardType(value.replace(/\s/g, ''));
+        }
+
+        // Format expiry date
+        function formatExpiryDate() {
+            const input = document.getElementById('expiryDate');
+            let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+            
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            
+            input.value = value;
+            updateCardPreview();
+        }
+
+        // Detect card type
+        function detectCardType(cardNumber) {
+            const cardIcon = document.getElementById('cardTypeIcon');
+            
+            // Reset to default
+            cardIcon.innerHTML = '<i class="far fa-credit-card"></i>';
+            
+            if (/^4/.test(cardNumber)) {
+                cardIcon.innerHTML = '<i class="fab fa-cc-visa"></i>';
+            } else if (/^5[1-5]/.test(cardNumber)) {
+                cardIcon.innerHTML = '<i class="fab fa-cc-mastercard"></i>';
+            } else if (/^3[47]/.test(cardNumber)) {
+                cardIcon.innerHTML = '<i class="fab fa-cc-amex"></i>';
+            } else if (/^6(?:011|5)/.test(cardNumber)) {
+                cardIcon.innerHTML = '<i class="fab fa-cc-discover"></i>';
+            }
+        }
+
+        // Update card preview
+        function updateCardPreview() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cardholderName = document.getElementById('cardholderName').value;
+            const cvv = document.getElementById('cvv').value;
+            
+            // Update card number display
+            if (cardNumber.length > 0) {
+                const cleanNumber = cardNumber.replace(/\s/g, '');
+                let displayed = '';
+                
+                if (cleanNumber.length <= 4) {
+                    displayed = cleanNumber + ' •••• •••• ••••';
+                } else if (cleanNumber.length <= 8) {
+                    displayed = cleanNumber.substring(0, 4) + ' ' + cleanNumber.substring(4) + ' •••• ••••';
+                } else if (cleanNumber.length <= 12) {
+                    displayed = cleanNumber.substring(0, 4) + ' ' + cleanNumber.substring(4, 8) + ' ' + cleanNumber.substring(8) + ' ••••';
+                } else {
+                    displayed = cleanNumber.substring(0, 4) + ' ' + cleanNumber.substring(4, 8) + ' ' + cleanNumber.substring(8, 12) + ' ' + cleanNumber.substring(12, 16);
+                }
+                
+                document.getElementById('cardNumberDisplay').textContent = displayed;
+            } else {
+                document.getElementById('cardNumberDisplay').textContent = 'ENTER CARD NUMBER';
+            }
+            
+            // Update expiry date
+            document.getElementById('cardExpiryDisplay').textContent = expiryDate || 'MM/YY';
+            
+            // Update cardholder name
+            document.getElementById('cardNameDisplay').textContent = cardholderName || 'CARDHOLDER NAME';
+            
+            // Update CVV
+            document.getElementById('cardCvvDisplay').textContent = cvv ? `CVV: ${cvv}` : 'CVV: ENTER CODE';
+        }
+
+        // Select payment method
+        function selectPaymentMethod(element, method) {
+            document.querySelectorAll('.payment-method-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            document.getElementById('creditCardForm').style.display = method === 'credit' ? 'block' : 'none';
+            document.getElementById('appleMessage').style.display = method === 'apple' ? 'block' : 'none';
+            document.getElementById('paypalMessage').style.display = method === 'paypal' ? 'block' : 'none';
+            
+            document.getElementById(method === 'credit' ? 'creditCard' : method === 'apple' ? 'applePay' : 'paypal').checked = true;
+        }
+
+        // Process payment
+        function processPayment() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').id;
+            let isValid = true;
+
+            // Validate credit card if selected
+            if (paymentMethod === 'creditCard') {
+                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                const expiryDate = document.getElementById('expiryDate').value;
+                const cvv = document.getElementById('cvv').value;
+                const cardholderName = document.getElementById('cardholderName').value.trim();
+
+                // Reset validation
+                document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+                // Validate card number
+                if (!/^\d{16}$/.test(cardNumber)) {
+                    document.getElementById('cardNumber').classList.add('is-invalid');
+                    document.getElementById('cardNumberError').textContent = 'Please enter a valid 16-digit card number';
+                    isValid = false;
+                }
+
+                // Validate expiry date
+                if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+                    document.getElementById('expiryDate').classList.add('is-invalid');
+                    document.getElementById('expiryDateError').textContent = 'Please enter valid expiry date (MM/YY)';
+                    isValid = false;
+                }
+
+                // Validate CVV
+                if (!/^\d{3,4}$/.test(cvv)) {
+                    document.getElementById('cvv').classList.add('is-invalid');
+                    document.getElementById('cvvError').textContent = 'Please enter valid CVV (3 or 4 digits)';
+                    isValid = false;
+                }
+
+                // Validate cardholder name
+                if (cardholderName.length < 3) {
+                    document.getElementById('cardholderName').classList.add('is-invalid');
+                    document.getElementById('cardholderNameError').textContent = 'Please enter cardholder name';
+                    isValid = false;
+                }
+            }
+
+            if (isValid) {
+                const payNowBtn = document.getElementById('payNowBtn');
+                payNowBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Processing...';
+                payNowBtn.disabled = true;
+                
+                processingModal.show();
+                
+                if (paymentMethod === 'creditCard') {
+                    setTimeout(() => {
+                        processingModal.hide();
+                        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                        document.getElementById('verificationCard').textContent = `•••• •••• •••• ${cardNumber.slice(-4)}`;
+                        const banks = ["Commonwealth Bank", "ANZ", "Westpac", "NAB"];
+                        document.getElementById('verificationBank').textContent = banks[Math.floor(Math.random() * banks.length)];
+                        secureModal.show();
+                        
+                        // Reset pay now button
+                        payNowBtn.innerHTML = '<i class="fas fa-lock me-2"></i> Pay Now';
+                        payNowBtn.disabled = false;
+                    }, 2500);
+                } else {
+                    setTimeout(() => {
+                        processingModal.hide();
+                        createConfetti();
+                        successModal.show();
+                        
+                        // Add to transaction history
+                        const newTransaction = {
+                            id: `DKN${new Date().getTime()}`,
+                            date: new Date().toLocaleDateString('en-GB'),
+                            description: "Tuition Payment",
+                            amount: studentData.balance,
+                            type: "payment",
+                            method: paymentMethod === 'applePay' ? 'Apple Pay' : 'PayPal',
+                            status: "Completed"
+                        };
+                        
+                        studentData.transactions.unshift(newTransaction);
+                        updateBalance();
+                        payNowBtn.innerHTML = '<i class="fas fa-lock me-2"></i> Pay Now';
+                        payNowBtn.disabled = false;
+                    }, 3000);
+                }
+            }
+        }
+
+        // Update balance after payment
+        function updateBalance() {
+            studentData.balance = 0;
+            document.getElementById('totalPayable').textContent = '$0.00';
+            document.getElementById('paymentTotal').textContent = '$0.00';
+            
+            // Update fee table
+            const feeTable = document.getElementById('feeTable').getElementsByTagName('tbody')[0];
+            feeTable.innerHTML = '';
+            studentData.fees.forEach(fee => {
+                const row = feeTable.insertRow();
+                row.innerHTML = `
+                    <td class="small">${fee.description}</td>
+                    <td class="small">${fee.dueDate}</td>
+                    <td class="small">$0.00</td>
+                    <td><span class="badge bg-success text-white small">Paid</span></td>
+                `;
+            });
+        }
+
+        // Verify 3D Secure payment
+        function verifyPayment() {
+            const smsCode = document.getElementById('smsCode').value.trim();
+            const verifyBtn = document.getElementById('verifyBtn');
+            
+            if (smsCode.length !== 6 || !/^\d+$/.test(smsCode)) {
+                alert('Please enter a valid 6-digit verification code');
+                return;
+            }
+            
+            verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Verifying...';
+            verifyBtn.disabled = true;
+            
+            setTimeout(() => {
+                secureModal.hide();
+                processingModal.show();
+                
+                setTimeout(() => {
+                    processingModal.hide();
+                    createConfetti();
+                    successModal.show();
+                    
+                    // Add to transaction history
+                    const newTransaction = {
+                        id: `DKN${new Date().getTime()}`,
+                        date: new Date().toLocaleDateString('en-GB'),
+                        description: "Tuition Payment",
+                        amount: studentData.balance,
+                        type: "payment",
+                        method: "Credit Card",
+                        status: "Completed"
+                    };
+                    
+                    studentData.transactions.unshift(newTransaction);
+                    updateBalance();
+                    resetPaymentForm();
+                    
+                    verifyBtn.innerHTML = '<i class="fas fa-check me-2"></i> Verify & Complete';
+                    verifyBtn.disabled = false;
+                }, 1500);
+            }, 1000);
+        }
+
+        // Reset payment form
+        function resetPaymentForm() {
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('expiryDate').value = '';
+            document.getElementById('cvv').value = '';
+            document.getElementById('cardholderName').value = '';
+            updateCardPreview();
+            selectPaymentMethod(document.querySelector('.payment-method-btn.active'), 'credit');
+        }
+
+        // Decline payment
+        function declinePayment() {
+            secureModal.hide();
+            alert('Payment was cancelled by user');
+            document.getElementById('payNowBtn').disabled = false;
+            document.getElementById('payNowBtn').innerHTML = '<i class="fas fa-lock me-2"></i> Pay Now';
+        }
+
+        // Create confetti animation
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Download receipt
+        function downloadReceipt() {
+            const paymentComplete = document.getElementById('paymentComplete');
+            paymentComplete.classList.add('active');
+            
+            setTimeout(() => {
+                paymentComplete.classList.remove('active');
+                successModal.hide();
+                alert('Receipt downloaded as PDF!');
+            }, 2500);
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('deakinpay_loggedIn');
+            localStorage.removeItem('deakinpay_userEmail');
+            paymentPage.style.display = 'none';
+            loginPage.style.display = 'flex';
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
+        }
+    </script>
+</body>
+</html>

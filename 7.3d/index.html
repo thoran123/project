@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeakinPay - Student Fee Portal</title>
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+</head>
+<body>
+    <!-- Dynamic Navbar with Auth State -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-deakin">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/deakin-logo.jpg" alt="Deakin" height="40">
+                <span class="ms-2 fw-bold">DeakinPay</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="feesDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-money-bill-wave me-1"></i> Fees
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="login.html">Pay Fees</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#course-estimator">Fee Calculator</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPaymentHistory()"><i class="fas fa-history me-1"></i> Payment History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="support.html" target="_blank"><i class="fas fa-question-circle me-1"></i> Support</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="login.html" class="btn btn-outline-light btn-lg px-4 portal-btn">
+                            <i class="fas fa-sign-in-alt me-2"></i> Student Login
+                        </a>                    
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Login Required Modal -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login Required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>You need to login to view your payment history.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="login.html" class="btn btn-primary">Go to Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero Section with 3D Globe -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <!-- Added Deakin intro badge -->
+                <div class="deakin-intro-badge">
+                    <span>DEAKIN UNIVERSITY</span>
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1 class="display-4 fw-bold mb-4">Smart Fee Management <span class="highlight-text">for Global Students</span></h1>
+                 <!-- Added animated subtitle -->
+                <p class="lead mb-4 intro-subtitle">
+                    <span class="typing-text">Secure payments. Worldwide access. Deakin excellence.</span>
+                </p>
+ <!-- Added Deakin trust indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item security">
+                      <i class="fas fa-shield-alt"></i>
+                      <span>Bank-Level Security</span>
+                    </div>
+                    <div class="trust-item countries">
+                      <i class="fas fa-globe"></i>
+                      <span>120+ Countries Supported</span>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <!-- Globe remains here -->
+            </div>
+        </div>
+    </div>
+</section>
+ <!-- Crazy Banner with iPhone Animation -->
+ <section class="crazy-banner">
+    <div class="container h-100">
+        <div class="banner-content h-100">
+            <div class="banner-text">
+                <h1 class="banner-title">
+                    <span class="title-word title-word-1">DEAKIN</span>
+                    <span class="title-word title-word-2">PAY</span>
+                    <span class="title-word title-word-3">REVOLUTION</span>
+                </h1>
+                <p class="banner-subtitle">The Future of Student Payments is Here</p>
+            </div>
+            <!-- iPhone Animation Container -->
+            <div class="floating-iphone">
+                <div class="iphone-frame">
+                    <!-- Dynamic Island -->
+                    <div class="dynamic-island"></div>
+                     <!-- Screen Content -->
+                    <div class="screen lock-screen active">
+                        <div class="status-bar">
+                            <span class="time">9:41</span>
+                            <div class="status-icons">
+                                <i class="fas fa-signal"></i>
+                                <i class="fas fa-wifi"></i>
+                                <i class="fas fa-battery-full"></i>
+                            </div>
+                        </div>
+                        <div class="lock-content">
+                            <div class="date">Tuesday, May 15</div>
+                            <div class="lock-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="pay-prompt">
+                                <span>DeakinPay</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screen payment-screen">
+                        <div class="status-bar">
+                            <span class="time">9:41</span>
+                            <div class="status-icons">
+                                <i class="fas fa-signal"></i>
+                                <i class="fas fa-wifi"></i>
+                                <i class="fas fa-battery-full"></i>
+                            </div>
+                        </div>
+                        <div class="payment-amount">$7,200.00</div>
+                        <div class="payment-description">Trimester 1 Fees</div>
+                        <div class="pay-button">
+                            Pay with Face ID
+                        </div>
+                    </div>
+                    <div class="screen success-screen">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="success-message">Payment Complete</div>
+                        <div class="success-amount">$7,200.00</div>
+                    </div>
+                    <!-- Home Indicator -->
+                    <div class="home-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- Animated Background Elements -->
+    <div class="banner-bg-elements">
+        <div class="coin coin-1"></div>
+        <div class="coin coin-2"></div>
+        <div class="coin coin-3"></div>
+        <div class="money-bill bill-1"></div>
+        <div class="money-bill bill-2"></div>
+        <div class="pulse-circle pulse-1"></div>
+        <div class="pulse-circle pulse-2"></div>
+    </div>
+</section>
+<!-- Features Cards with Hover Effects -->
+    <section class="features-section py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Why Use DeakinPay?</h2>
+                <p class="lead text-muted">Experience seamless fee management with our student-centric platform</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="icon-wrapper bg-primary-gradient">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="mt-3">Bank-Level Security</h3>
+                        <p class="text-muted">All transactions protected with 256-bit encryption and two-factor authentication.</p>
+                        <div class="feature-badge">Most Secure</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="icon-wrapper bg-success-gradient">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="mt-3">24/7 Access</h3>
+                        <p class="text-muted">Pay your fees anytime, anywhere with our mobile-friendly platform.</p>
+                        <div class="feature-badge">Always On</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="icon-wrapper bg-warning-gradient">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="mt-3">Instant Receipts</h3>
+                        <p class="text-muted">Automated email and downloadable receipts for every transaction.</p>
+                        <div class="feature-badge">Paperless</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="icon-wrapper bg-danger-gradient">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="mt-3">Dedicated Support</h3>
+                        <p class="text-muted">24/7 student support team ready to assist with any payment issues.</p>
+                        <div class="feature-badge">Help Always</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Fee Estimator Section -->
+    <section id="course-estimator" class="course-estimator py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5"><i class="fas fa-calculator me-2"></i>Course Fee Estimator</h2>
+            <!-- Course Type Cards -->
+            <div class="row g-4 mb-4" id="courseTypeSelector">
+                <!-- Undergraduate -->
+                <div class="col-md-3" data-course="ug">
+                    <div class="course-card active" onclick="selectCourse(this, 'ug')">
+                        <div class="course-icon bg-primary">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>Undergraduate</h3>
+                        <p class="small">$1,200 - $1,800/unit</p>
+                        <div class="course-badge">Most Popular</div>
+                    </div>
+                </div>
+                <!-- Postgraduate -->
+                <div class="col-md-3" data-course="pg">
+                    <div class="course-card" onclick="selectCourse(this, 'pg')">
+                        <div class="course-icon bg-success">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Postgraduate</h3>
+                        <p class="small">$1,800 - $2,200/unit</p>
+                    </div>
+                </div>
+                <!-- Research -->
+                <div class="col-md-3" data-course="research">
+                    <div class="course-card" onclick="selectCourse(this, 'research')">
+                        <div class="course-icon bg-warning">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Research</h3>
+                        <p class="small">$2,000 - $2,500/unit</p>
+                    </div>
+                </div>
+                <!-- International -->
+                <div class="col-md-3" data-course="international">
+                    <div class="course-card" onclick="selectCourse(this, 'international')">
+                        <div class="course-icon bg-danger">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <h3>International</h3>
+                        <p class="small">$2,500 - $3,000/unit</p>
+                        <div class="course-badge">Visa Ready</div>
+                    </div>
+                </div>
+            </div>
+        <!-- Calculator Panel -->
+            <div class="calculator-panel shadow-lg">
+                <div class="row g-0">
+                    <!-- Input Controls -->
+                    <div class="col-md-6 p-4">
+                        <h4 class="mb-4"><i class="fas fa-sliders-h me-2"></i>Adjust Your Study Plan</h4>
+                        <!-- Unit Slider -->
+                        <div class="mb-4">
+                            <label class="form-label">Units per Trimester: <span id="unitValue" class="fw-bold">4</span></label>
+                            <input type="range" class="form-range" min="1" max="8" value="4" id="unitSlider" oninput="updateUnitValue()">
+                            <div class="d-flex justify-content-between small text-muted mt-1">
+                                <span>Light (1-2)</span>
+                                <span>Standard (3-4)</span>
+                                <span>Heavy (5-8)</span>
+                            </div>
+                        </div>
+                        <!-- Scholarship Toggle -->
+                        <div class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="scholarshipToggle" onchange="calculateFees()">
+                            <label class="form-check-label" for="scholarshipToggle">
+                                <i class="fas fa-award me-2"></i>Deakin Scholarship (10% off)
+                            </label>
+                        </div>
+                        <!-- Trimester Selector -->
+                        <div class="mb-4">
+                            <label class="form-label">Trimesters</label>
+                            <div class="btn-group w-100" id="trimesterSelector">
+                                <button type="button" class="btn btn-outline-primary active" data-trimesters="1" onclick="selectTrimesters(this)">1</button>
+                                <button type="button" class="btn btn-outline-primary" data-trimesters="2" onclick="selectTrimesters(this)">2</button>
+                                <button type="button" class="btn btn-outline-primary" data-trimesters="3" onclick="selectTrimesters(this)">3</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Visual Output -->
+                    <div class="col-md-6 p-4 bg-primary text-white">
+                        <div class="fee-visualization">
+                            <h4><i class="fas fa-receipt me-2"></i>Your Fee Breakdown</h4>
+                            <!-- Animated Meter -->
+                            <div class="meter-container mb-4">
+                                <div class="meter-bar" id="feeMeter"></div>
+                                <div class="meter-labels d-flex justify-content-between mt-2 small">
+                                    <span>$0</span>
+                                    <span id="maxFee">$30,000</span>
+                                </div>
+                            </div>
+                            <!-- Detailed Breakdown -->
+                            <div class="fee-breakdown">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span><i class="fas fa-cube me-2"></i>Base Fee:</span>
+                                    <span id="baseFee">$7,200</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span><i class="fas fa-calendar-alt me-2"></i>Trimesters:</span>
+                                    <span id="trimesterFee">×1</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 text-success" id="discountRow">
+                                    <span><i class="fas fa-tag me-2"></i>Scholarship:</span>
+                                    <span>-<span id="discountAmount">$0</span></span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between fw-bold fs-5">
+                                    <span>Total Estimate:</span>
+                                    <span id="totalFee">$7,200</span>
+                                </div>
+                            </div>
+                            <!-- Save Button -->
+                            <button class="btn btn-light mt-4 w-100" onclick="saveEstimate()">
+                                <i class="fas fa-download me-2"></i>Save This Estimate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Innovative Feedback Section -->
+        <section class="feedback-section py-5 position-relative overflow-hidden">
+            <div class="container position-relative z-2">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <!-- Animated Card -->
+                        <div class="feedback-card bg-white rounded-4 shadow-lg position-relative overflow-hidden">
+                            <!-- Floating background elements -->
+                            <div class="feedback-bubble bubble-1"></div>
+                            <div class="feedback-bubble bubble-2"></div>
+                            <div class="feedback-bubble bubble-3"></div>
+                            <div class="card-header bg-transparent border-0 py-4 px-4">
+                                <h3 class="mb-0 text-center">
+                                    <span class="feedback-title-word">Share</span>
+                                    <span class="feedback-title-word">Your</span>
+                                    <span class="feedback-title-word">Thoughts</span>
+                                </h3>
+                                <p class="text-center text-muted mb-0">We value your feedback</p>
+                            </div>
+                            <div class="card-body p-4">
+                                <form id="innovativeFeedbackForm">
+                                    <!-- Interactive form fields -->
+                                    <div class="form-field mb-4" data-field="name">
+                                        <label class="form-label">Your Name</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" class="form-control" required>
+                                            <div class="field-progress"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field mb-4" data-field="email">
+                                        <label class="form-label">Email Address</label>
+                                        <div class="input-wrapper">
+                                            <input type="email" class="form-control" required>
+                                            <div class="field-progress"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field mb-4" data-field="subject">
+                                        <label class="form-label">Subject</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" class="form-control" required>
+                                            <div class="field-progress"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field mb-4" data-field="message">
+                                        <label class="form-label">Your Message</label>
+                                        <div class="input-wrapper">
+                                            <textarea class="form-control" rows="4" required></textarea>
+                                            <div class="field-progress"></div>
+                                            <div class="char-counter"><span>0</span>/500</div>
+                                        </div>
+                                    </div>
+                                    <!-- Interactive toggle -->
+                                    <div class="response-toggle mb-4">
+                                        <input type="checkbox" id="innovativeResponseCheck" checked>
+                                        <label for="innovativeResponseCheck">
+                                            <div class="toggle-switch"></div>
+                                            <span>I'd like to receive a response</span>
+                                        </label>
+                                    </div>
+                                    <!-- Animated submit button -->
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-feedback-submit px-5 py-3">
+                                            <span class="btn-text">Send Message</span>
+                                            <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                                            <span class="btn-confetti"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Floating decorative elements -->
+            <div class="feedback-float-icon float-icon-1"><i class="fas fa-comment"></i></div>
+            <div class="feedback-float-icon float-icon-2"><i class="fas fa-lightbulb"></i></div>
+            <div class="feedback-float-icon float-icon-3"><i class="fas fa-question"></i></div>
+        </section>
+        <!-- Success Animation -->
+        <div class="feedback-success-modal">
+            <div class="success-content text-center">
+                <div class="success-icon">
+                    <svg viewBox="0 0 100 100">
+                        <path class="checkmark" fill="none" stroke="#00A3E1" stroke-width="8" 
+                              stroke-linecap="round" d="M20,50 L40,70 L80,30"/>
+                    </svg>
+                </div>
+                <h3>Thank You!</h3>
+                <p>Your feedback has been received</p>
+                <button class="btn btn-outline-primary mt-3">Close</button>
+            </div>
+        </div>
+        <script>
+            // Interactive form functionality
+            document.querySelectorAll('.form-field input, .form-field textarea').forEach(el => {
+                el.addEventListener('focus', function() {
+                    this.parentElement.parentElement.classList.add('active');
+                });
+                el.addEventListener('blur', function() {
+                    if(!this.value) {
+                        this.parentElement.parentElement.classList.remove('active');
+                    }
+                });
+                // For textarea character counter
+                if(el.tagName === 'TEXTAREA') {
+                    el.addEventListener('input', function() {
+                        const counter = this.parentElement.querySelector('.char-counter span');
+                        counter.textContent = this.value.length;
+                        // Update progress
+                        const progress = this.parentElement.querySelector('.field-progress');
+                        progress.style.width = `${Math.min(this.value.length / 500 * 100, 100)}%`;
+                    });
+                }
+            });
+            // Form submission
+            document.getElementById('innovativeFeedbackForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Show success animation
+                document.querySelector('.feedback-success-modal').classList.add('show');
+                // Reset form
+                this.reset();
+                document.querySelectorAll('.form-field').forEach(field => {
+                    field.classList.remove('active');
+                });
+            });
+            // Close success modal
+            document.querySelector('.feedback-success-modal button').addEventListener('click', function() {
+                document.querySelector('.feedback-success-modal').classList.remove('show');
+            });
+        </script>
+        <!-- Innovative Contact Section -->
+        <section class="contact-section py-4" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
+            <div class="container">
+                <div class="contact-card-wrapper position-relative">
+                    <!-- Floating contact elements -->
+                    <div class="floating-contact-icon" style="top: -20px; left: 5%; animation-delay: 0s;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="floating-contact-icon" style="top: 30%; right: 8%; animation-delay: 0.3s;">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="floating-contact-icon" style="bottom: 10%; left: 15%; animation-delay: 0.6s;">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-card bg-white p-4 rounded-3 shadow-sm position-relative overflow-hidden">
+                        <!-- Animated border effect -->
+                        <div class="contact-border-animation"></div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="contact-method h-100 p-3 rounded-2" onclick="window.open('https://maps.app.goo.gl/Nbs2eTmn3ZYMGaLi8?g_st=com.google.maps.preview.copy')">
+                                    <div class="icon-wrapper bg-danger bg-opacity-10 text-danger mb-3">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <h4 class="h6 mb-2">Campus Location</h4>
+                                    <p class="small mb-1">Deakin University</p>
+                                    <p class="small">221 Burwood Hwy, VIC 3125</p>
+                                    <div class="mt-2">
+                                        <span class="badge bg-danger bg-opacity-10 text-danger">Click to open map</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="contact-method h-100 p-3 rounded-2" onclick="window.location.href='tel:+61392446333'">
+                                    <div class="icon-wrapper bg-primary bg-opacity-10 text-primary mb-3">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <h4 class="h6 mb-2">Contact Us</h4>
+                                    <p class="small mb-1">+61 3 9244 6333</p>
+                                    <p class="small">Emergency: 1800 062 579</p>
+                                    <div class="mt-2">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">Click to call</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="contact-method h-100 p-3 rounded-2" onclick="window.location.href='mailto:deakinpay@deakin.edu.au'">
+                                    <div class="icon-wrapper bg-success bg-opacity-10 text-success mb-3">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <h4 class="h6 mb-2">Email Support</h4>
+                                    <p class="small mb-1">deakinpay@deakin.edu.au</p>
+                                    <p class="small">24/7 support</p>
+                                    <div class="mt-2">
+                                        <span class="badge bg-success bg-opacity-10 text-success">Click to email</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="working-hours mt-4 pt-3 border-top text-center">
+                            <p class="mb-1"><strong>Working Hours:</strong> Mon-Fri 8:30am-5pm | Sat 10am-2pm</p>
+                            <p class="small text-muted">Closed on Sundays and public holidays</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- Creator Information -->
+<div class="creator-signature">
+    <p>Application developed by <span class="highlight-text">Thoran Kumar Cherukuru Ramesh</span><br>
+    <span class="highlight-text">Master of Information Technology</span> student at Deakin University<br>
+    Student ID: <span class="highlight-text">s224967779</span><br>
+    &copy; April 28, 2025 DeakinPay. All rights reserved.</p>
+</div>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Globe Animation JS -->
+    <script src="globe.js"></script>
+</body>
+</html>
